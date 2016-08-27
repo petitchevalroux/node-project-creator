@@ -63,19 +63,20 @@ nconf.get("_")
         exec(cmd, function(err, stdout, stderr) {
             process.stdout.write(stdout);
             process.stderr.write(stderr);
-            if (config.package) {
-                var pkg = JSON.parse(fs.readFileSync(path.join(
-                    config.directory, "package.json")));
-                pkg = JSON.stringify(merge(pkg, config.package),
-                    null, 4);
-                Object.getOwnPropertyNames(replacements)
-                    .forEach(function(key) {
-                        pkg = pkg.replace(new RegExp(
-                                "%" + key + "%", "g"),
-                            replacements[key]);
-                    });
-                fs.writeFileSync(path.join(
-                    config.directory, "package.json"), pkg);
-            }
+            var packageData = config.package || {};
+            packageData.name = project;
+            var pkg = JSON.parse(fs.readFileSync(path.join(
+                config.directory, "package.json")));
+            pkg = JSON.stringify(merge(pkg, packageData),
+                null, 4);
+            Object.getOwnPropertyNames(replacements)
+                .forEach(function(key) {
+                    pkg = pkg.replace(new RegExp(
+                            "%" + key + "%", "g"),
+                        replacements[key]);
+                });
+            fs.writeFileSync(path.join(
+                config.directory, "package.json"), pkg);
+
         });
     });
