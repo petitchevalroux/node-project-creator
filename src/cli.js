@@ -24,12 +24,18 @@ var cmds = [
     "make install-git-hook"
 ];
 
-nconf.get("_")
+var config = nconf.get();
+if (config.commands) {
+    config.commands.forEach(function(cmd) {
+        cmds.push(cmd);
+    });
+}
+config["_"]
     .forEach(function(project) {
         var replacements = {
             "project": project
         };
-        var config = nconf.get();
+
         if (!config.directory) {
             config.directory = path.join(config["base-directory"], project);
         }

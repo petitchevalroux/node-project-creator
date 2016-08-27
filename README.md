@@ -13,6 +13,7 @@ Located in ~/.node-project-creator
 
     "base-directory":"/Users/patrick/code",
     "git-origin":"git@github.com:petitchevalroux/%project%.git",
+    "commands": ["rm src/*.js", "rm tests/*.js"],
     "package":{
         "description":"",
         "repository":{
